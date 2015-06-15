@@ -52,7 +52,7 @@ exports.author = function(req,res){
 //GET /quizes/new
 exports.new = function(req,res){
 	var quiz = models.Quiz.build( //crea objeto quiz
-		{pregunta:"Pregunta", respuesta: "Respuesta"}
+		{pregunta:"Pregunta", respuesta: "Respuesta", tematica:"Tematica"}
 	);
 	res.render('quizes/new', {quiz: quiz, errors: []});
 };
@@ -69,7 +69,7 @@ exports.create = function(req,res){
 			errores[i++]={message:errors[prop]};
 		res.render('quizes/new',{quiz:quiz,errors:errores});
 	} else {
-		quiz.save({fields:["pregunta","respuesta" ]})
+		quiz.save({fields:["pregunta","respuesta","tematica" ]})
 		.then(function(){
 			res.redirect('/quizes');
 		});
@@ -87,6 +87,7 @@ exports.edit = function(req,res){
 exports.update = function(req,res){
 	req.quiz.pregunta = req.body.quiz.pregunta;
 	req.quiz.respuesta = req.body.quiz.respuesta;
+	req.quiz.tematica = req.body.quiz.tematica;
 
 	var errors = req.quiz.validate();
 	if(errors){
@@ -96,7 +97,7 @@ exports.update = function(req,res){
 			errores[i++]={message:errors[prop]};
 		res.render('quizes/edit',{quiz:quiz, errors:errores})
 	} else {
-		req.quiz.save( {fields: ["pregunta","respuesta"]})
+		req.quiz.save( {fields: ["pregunta","respuesta","tematica"]})
 		.then(function(){res.redirect('/quizes');});
 	}
 
