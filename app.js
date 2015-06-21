@@ -38,6 +38,19 @@ app.use(function(req, res, next){
     next();
 });
 
+//Expiración de la sesión a los dos minutos (120000 milisegundos)
+app.use(function(req, res, next){
+	var tiempo = 120000;
+	if(req.session.cookie){
+		req.session.cookie.expires = new Date(Date.now()+tiempo);
+		req.session.cookie.maxAge = tiempo;
+	}
+	next();
+});
+
+
+
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
